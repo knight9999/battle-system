@@ -125,3 +125,66 @@ plugins: [
 
 よくわからないが、次がわかりやすそう
 http://qiita.com/sergeant-wizard/items/60b557fc1c763f0a1531
+
+### devDependenciesとdependenciesについて
+
+package.jsonのdevDependenciesは開発時のみに必要なライブラリ、dependenciesには
+実行時に必要なライブラリを入れる。
+
+今回は、webpackによりすべてのコードをbundle.jsにして使っているので、実は、reactやreact-domも
+devDependenciesに入れた方が良い。
+
+逆に、webpackを使わずに、
+
+node_modules/react/dist/react.js
+node_modules/react-dom/dist/react-dom.js
+node_modules/babel-core/lib/api/browser.js
+
+を直接読み込んで実行するのであれば、全部、dependenciesの方に入れた方が良い。
+
+例：
+
+ node_modulesディレクトリをすべてwww配下に起き、
+ 次のようなコードを考える。
+
+index.html
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Battle-System sample001</title>
+<!--  <script src="js/bundle.js"></script> -->
+  <script src="node_modules/react/dist/react.js"></script>
+  <script src="node_modules/react-dom/dist/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  <script type="text/babel">
+
+  // import React from 'react'
+  // import ReactDOM from 'react-dom'
+  class Hello extends React.Component {
+    render() {
+      return (
+        <h1>Hello ABC</h1>
+      )
+    }
+  }
+  ReactDOM.render(
+    <Hello />,
+    document.getElementById('hello')
+  )
+
+  </script>
+</head>
+<body>
+  This is a test program. <br />
+  <div id="hello"></div>
+</body>
+</html>
+```
+
+これでも、上記と同様の動作を行うことがわかる。
+
+なお、browser.min.jsは、babel6には含まれなくなってしまったので、わざわざサーバーから取得している。
+ローカルにbabel5を入れておけば、そこにあるbrowser.min.jsを使って良い。
