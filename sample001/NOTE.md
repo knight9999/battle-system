@@ -1,6 +1,6 @@
-** 2016/10/30
+## 2016/10/30
 
-*** webpack-dev-serverの導入
+### webpack-dev-serverの導入
 
 ```
 $ npm install --save-dev webpack-dev-server
@@ -107,7 +107,7 @@ $ npm build
 $ npm start
 ```
 
-** 発展
+### 余談
 
 また、HotModuleReplacementをするには、次のようなものが必要?
 
