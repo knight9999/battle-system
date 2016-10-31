@@ -188,3 +188,86 @@ index.html
 
 なお、browser.min.jsは、babel6には含まれなくなってしまったので、わざわざサーバーから取得している。
 ローカルにbabel5を入れておけば、そこにあるbrowser.min.jsを使って良い。
+
+
+例２：
+
+http://www.saltycrane.com/blog/2016/01/how-set-up-babel-6-with-react-mac-os-x-command-line-only/
+
+にあるように、reactは直接読み込み、babelを使ってユーザーコードだけビルドする方法もある。
+
+まず、
+
+    $ install babel-cli
+
+で、babel-cliを入れておく。
+
+また、先と同じように、node_modules/reactやnode_modules/react-domを、www配下においておく。
+
+コード
+
+.babelrc
+
+```
+{
+  "presets": ["react", "es2015"]
+}
+```
+
+www/index.html
+
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Battle-System sample001</title>
+  <script src="node_modules/react/dist/react.js"></script>
+  <script src="node_modules/react-dom/dist/react-dom.js"></script>
+  <script src="js/bundle.js"></script>
+</head>
+<body>
+  This is a test program. <br />
+  <div id="hello"></div>
+  <script type="text/babel">
+  import React from 'react'
+  import ReactDOM from 'react-dom'
+
+  class Hello extends React.Component {
+    render() {
+      return (
+        <h1>Hello XYZ</h1>
+      )
+    }
+  }
+
+  ReactDOM.render(
+    <Hello />,
+    document.getElementById('hello')
+  )
+
+  </script>
+</body>
+</html>
+```
+
+www/main.jsx
+
+```
+class Hello extends React.Component {
+  render() {
+    return (
+      <h1>Hello XYZ</h1>
+    )
+  }
+}
+
+ReactDOM.render(
+  <Hello />,
+  document.getElementById('hello')
+)
+```
+
+コンパイル
+
+    $ node_modules/.bin/babel www/main.jsx -o www/main.babelized.js
