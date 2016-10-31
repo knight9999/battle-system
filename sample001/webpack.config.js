@@ -3,7 +3,12 @@ var webpack = require('webpack');
 
 module.exports = {
   entry: './src/js/main.jsx',
-  output: { path: __dirname + "/www/js", filename: 'bundle.js' , libraryTarget: 'var', library : 'EntryPoint' },
+  output: {
+    path: __dirname + "/www/js",
+    publicPath: 'http://localhost:3000/js/',
+    filename: 'bundle.js' ,
+    libraryTarget: 'var',
+    library : 'EntryPoint' },
   module: {
     loaders: [
       {
@@ -15,8 +20,10 @@ module.exports = {
         }
       }
     ]
-  }
-
-
+  },
+  devServer: {
+    contentBase: "./www",
+    port: 3000,
+    inline: true,
+  },
 }
-
